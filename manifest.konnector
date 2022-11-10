@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "name": "Liveli",
+  "type": "konnector",
+  "language": "node",
+  "icon": "icon.svg",
+  "slug": "liveli",
+  "source": "git@github.com:konnectors/liveli.git",
+  "editor": "dohseven",
+  "vendor_link": "https://parents.liveli.fr",
+  "categories": ["education"],
+  "fields": {
+    "login": {
+      "type": "text"
+    },
+    "password": {
+      "type": "password"
+    }
+  },
+  "folders": [{"defaultDir": "$administrative/$konnector/$account"}],
+  "data_types": [
+    "bill"
+  ],
+  "screenshots": [],
+  "permissions": {
+    "bank operations": {
+      "type": "io.cozy.bank.operations"
+    },
+    "bills": {
+      "type": "io.cozy.bills"
+    },
+    "files": {
+      "type": "io.cozy.files"
+    },
+    "accounts": {
+      "type": "io.cozy.accounts"
+    }
+  },
+  "developer": {
+    "name": "dohseven",
+    "url": "https://github.com/dohseven"
+  },
+  "langs": ["fr", "en"],
+  "locales": {
+    "fr": {
+      "short_description": "Récupère les factures de votre crèche Liveli",
+      "long_description": "Récupère les factures mensuelles de votre crèche Liveli publiées sur le site web",
+      "permissions": {
+        "bank operations": {
+          "description": "Utilisé pour relier les factures à des operations bancaires"
+        },
+        "bills": {
+          "description": "Utilisé pour sauver les données des factures"
+        },
+        "files": {
+          "description": "Utilisé pour sauvegarder les factures"
+        },
+        "accounts": {
+          "description": "Utilisé pour obtenir les données du compte"
+        }
+      }
+    },
+    "en": {
+      "short_description": "Fetch the bills of your Liveli nursery",
+      "long_description": "Fetch the monthly bills of your Liveli nursery from the website",
+      "permissions": {
+        "bank operations": {
+          "description": "Required to link bank operations to bills"
+        },
+        "bills": {
+          "description": "Required to save the bills data"
+        },
+        "files": {
+          "description": "Required to save the bills"
+        },
+        "accounts": {
+          "description": "Required to get the account's data"
+        }
+      }
+    }
+  },
+  "banksTransactionRegExp": "\\bcreches\\b",
+  "manifest_version": "2"
+}
