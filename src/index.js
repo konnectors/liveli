@@ -4,7 +4,7 @@ const {
   scrape,
   log,
   utils,
-  saveFiles
+  saveBills
 } = require('cozy-konnector-libs')
 const request = requestFactory({
   // Debug mode
@@ -47,7 +47,7 @@ async function start(fields, cozyParameters) {
   const documents = await parseDocuments($)
 
   log('info', 'Saving data to Cozy')
-  await this.saveBills(documents, fields, {
+  await saveBills(documents, fields, {
     // This is a bank identifier which will be used to link bills to bank operations. These
     // identifiers should be at least a word found in the title of a bank operation related to this
     // bill. It is not case sensitive.
@@ -83,7 +83,7 @@ async function getAmountAndRefInPdf(pdfBuffer) {
   const page = await doc.getPage(1)
   const text = await page.getTextContent()
   const fullText = text.items
-    .map(function(s) {
+    .map(function (s) {
       return s.str
     })
     .join('\n')
