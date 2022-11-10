@@ -4,12 +4,11 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git@github.com:konnectors/cozy-konnector-liveli.git"
+    "url": "git@github.com:konnectors/liveli.git"
   },
   "keywords": [],
   "author": "Cozy Cloud",
   "license": "AGPL-3.0",
-  "main": "./src/index.js",
   "eslintConfig": {
     "extends": [
       "cozy-app"
