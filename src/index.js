@@ -48,7 +48,29 @@ async function start(fields, cozyParameters) {
   const $ = await request(landingPage(`ul[class='compte']>li>a`).attr('href'))
 
   log('info', 'Parsing list of documents')
-  const documents = await parseDocuments($)
+  let documents = await parseDocuments($)
+
+  let next = $(`div[class='nav-pages']>ul>li>a[class='next']`)
+  while (next.length) {
+    const nextMatch = next.attr('onclick').match('[0-9]+')
+    if (nextMatch === null) {
+      log('warn', 'No next page found')
+    } else {
+      log('debug', 'Retrieving documents of page #' + nextMatch[0])
+    }
+
+    const $ = await request({
+      url: `${baseUrl}/site/toolPages/adminActionService.aspx`,
+      method: 'POST',
+      form: {
+        ServiceRequestMode: 1,
+        ServicesXML: `%3CService%20ServiceName%3D'ServiceAOX_HtmlBuilderAOX'%3E%3CServiceParam%20ServiceParamName%3D'objectType'%3EHtmlBuilder%3C%2FServiceParam%3E%3CServiceParam%20ServiceParamName%3D'ParamsList'%3E%3C!%5BCDATA%5B%3CParam%20code%3D'HbClassName'%20value%3D'HbListUserInvoice'%20%2F%3E%3CParam%20code%3D'MediaContainer.MediaAppCode'%20value%3D'HTMLT_MONCOMPTEPAGE_FACTURECONTAINER'%20%2F%3E%3CParam%20code%3D'MediaItem.MediaAppCode'%20value%3D'HTMLT_MONCOMPTEPAGE_FACTUREITEM'%20%2F%3E%3CParam%20code%3D'PageNumber'%20value%3D'${nextMatch[0]}'%20%2F%3E%3CParam%20code%3D'ServiceName'%20value%3D'ServiceAOX_HtmlBuilderAOX'%20%2F%3E%5D%5D%3E%3C%2FServiceParam%3E%3C%2FService%3E`
+      }
+    })
+
+    documents = documents.concat(await parseDocuments($))
+    next = $(`div[class='nav-pages']>ul>li>a[class='next']`)
+  }
 
   log('info', 'Saving data to Cozy')
   await saveBills(documents, fields, {
